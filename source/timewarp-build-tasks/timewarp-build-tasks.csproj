@@ -25,9 +25,13 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
   </ItemGroup>
 
-  <!-- Package the task DLL in build folder -->
+  <!-- Package the task DLL in both build and buildTransitive folders -->
   <ItemGroup>
+    <!-- Package DLL in both build and buildTransitive -->
     <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="build/netstandard2.0" />
+    <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="buildTransitive/netstandard2.0" />
+
+    <!-- Package props in both folders -->
     <None Include="build/TimeWarp.Build.Tasks.props" Pack="true" PackagePath="build" />
     <None Include="build/TimeWarp.Build.Tasks.props" Pack="true" PackagePath="buildTransitive" />
   </ItemGroup>
