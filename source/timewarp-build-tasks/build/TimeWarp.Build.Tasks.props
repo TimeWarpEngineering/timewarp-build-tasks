@@ -5,8 +5,8 @@
 
   <!-- Automatically inject git metadata into all projects that reference this package -->
   <!-- Can be disabled by setting TimeWarpEnableGitMetadata to false -->
-  <Target Name="TimeWarpSetGitMetadata" 
-          BeforeTargets="CoreCompile"
+  <Target Name="TimeWarpSetGitMetadata"
+          BeforeTargets="GetAssemblyAttributes;GenerateAssemblyInfo"
           Condition="'$(TimeWarpEnableGitMetadata)' != 'false'">
     <GitMetadataTask>
       <Output TaskParameter="CommitHash" PropertyName="CommitHash"/>
