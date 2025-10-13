@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- NuGet Package Settings -->
+    <!-- Assembly and Package Settings -->
+    <AssemblyName>TimeWarp.Build.Tasks</AssemblyName>
     <IsPackable>true</IsPackable>
     <PackageId>TimeWarp.Build.Tasks</PackageId>
     <Description>MSBuild tasks for TimeWarp projects including git metadata injection and build automation</Description>
