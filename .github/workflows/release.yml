@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for git metadata
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        dotnet-quality: 'preview'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Publish to NuGet
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.PUBLISH_TO_NUGET_ORG }}
+      run: dotnet nuget push ./artifacts/packages/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate

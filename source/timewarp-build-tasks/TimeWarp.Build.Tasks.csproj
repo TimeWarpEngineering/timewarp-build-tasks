@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    
+  <PropertyGroup>    
     <!-- NuGet Package Settings -->
     <IsPackable>true</IsPackable>
     <PackageId>TimeWarp.Build.Tasks</PackageId>
