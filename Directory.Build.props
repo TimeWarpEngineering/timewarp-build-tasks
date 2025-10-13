@@ -1,0 +1,63 @@
+<Project>
+  <!-- Custom path definitions for repository structure -->
+  <PropertyGroup Label="Custom Repository Variables">
+    <TimeWarpStateVersion>12.0.0-beta.3</TimeWarpStateVersion>
+    <RepositoryName>timewarp-state</RepositoryName>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <SourceDirectory>$(RepositoryRoot)source/</SourceDirectory>
+    <TestsDirectory>$(RepositoryRoot)tests/</TestsDirectory>
+    <SamplesDirectory>$(RepositoryRoot)samples/</SamplesDirectory>
+    <ArtifactsDirectory>$(RepositoryRoot)artifacts/</ArtifactsDirectory>
+    <SolutionFile>$(RepositoryRoot)timewarp-state.slnx</SolutionFile>
+    <LocalNuGetFeed>$(ArtifactsDirectory)packages/</LocalNuGetFeed>
+    <LocalNuGetCache>$(RepositoryRoot)local-nuget-feed/</LocalNuGetCache>
+  </PropertyGroup>
+
+  <!-- Default package metadata (can be overridden in individual projects) -->
+  <PropertyGroup Label="Package Metadata">
+    <Authors>Steven T. Cramer</Authors>
+    <Product>TimeWarp.Build.Tasks</Product>
+    <PackageId>TimeWarp.Build.Tasks</PackageId>
+    <PackageVersion>1.0.0.beta.1</PackageVersion>
+    <PackageProjectUrl>https://timewarpengineering.github.io/timewarp-build-tasks/</PackageProjectUrl>
+    <PackageTags>TimeWarp;MSBuild;Build;Tasks;Git;Metadata</PackageTags>
+    <RepositoryUrl>https://github.com/TimeWarpEngineering/timewarp-build-tasks.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <PackageReleaseNotes>
+      For detailed release notes and changelog, please visit: https://github.com/TimeWarpEngineering/timewarp-build-tasks/releases
+    </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- Common compile parameters -->
+  <PropertyGroup Label="Project Defaults">
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>latest</LangVersion>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NoWarn>CS7035;NU1503;1503;1591</NoWarn>
+    <Nullable>enable</Nullable>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Suppress .NET preview SDK message -->
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Source Link Configuration">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

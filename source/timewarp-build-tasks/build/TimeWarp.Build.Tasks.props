@@ -1,0 +1,27 @@
+<Project>
+  <!-- Define the custom task -->
+  <UsingTask TaskName="TimeWarp.Build.Tasks.GitMetadataTask"
+             AssemblyFile="$(MSBuildThisFileDirectory)netstandard2.0/TimeWarp.Build.Tasks.dll" />
+
+  <!-- Automatically inject git metadata into all projects that reference this package -->
+  <!-- Can be disabled by setting TimeWarpEnableGitMetadata to false -->
+  <Target Name="TimeWarpSetGitMetadata" 
+          BeforeTargets="CoreCompile"
+          Condition="'$(TimeWarpEnableGitMetadata)' != 'false'">
+    <GitMetadataTask>
+      <Output TaskParameter="CommitHash" PropertyName="CommitHash"/>
+      <Output TaskParameter="CommitDate" PropertyName="CommitDate"/>
+    </GitMetadataTask>
+
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(CommitHash)' != ''">
+        <_Parameter1>CommitHash</_Parameter1>
+        <_Parameter2>$(CommitHash)</_Parameter2>
+      </AssemblyAttribute>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition="'$(CommitDate)' != ''">
+        <_Parameter1>CommitDate</_Parameter1>
+        <_Parameter2>$(CommitDate)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+</Project>

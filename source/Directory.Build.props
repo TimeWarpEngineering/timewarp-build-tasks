@@ -1,0 +1,54 @@
+<Project>
+  <!-- Import parent Directory.Build.props -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Custom path definitions for repository structure -->
+  <PropertyGroup Label="Custom Repository Variables">
+    <TimeWarpStateVersion>12.0.0-beta.3</TimeWarpStateVersion>
+    <RepositoryName>timewarp-state</RepositoryName>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <SourceDirectory>$(RepositoryRoot)source/</SourceDirectory>
+    <TestsDirectory>$(RepositoryRoot)tests/</TestsDirectory>
+    <SamplesDirectory>$(RepositoryRoot)samples/</SamplesDirectory>
+    <ArtifactsDirectory>$(RepositoryRoot)artifacts/</ArtifactsDirectory>
+    <SolutionFile>$(RepositoryRoot)timewarp-state.slnx</SolutionFile>
+    <LocalNuGetFeed>$(ArtifactsDirectory)packages/</LocalNuGetFeed>
+    <LocalNuGetCache>$(RepositoryRoot)local-nuget-feed/</LocalNuGetCache>
+  </PropertyGroup>
+
+  <!-- Default package metadata (can be overridden in individual projects) -->
+  <PropertyGroup Label="Package Metadata">
+    <Authors>Steven T. Cramer</Authors>
+    <Product>TimeWarp.Build.Tasks</Product>
+    <PackageId>TimeWarp.Build.Tasks</PackageId>
+    <PackageVersion>1.0.0-beta.1</PackageVersion>
+    <PackageProjectUrl>https://timewarpengineering.github.io/timewarp-build-tasks/</PackageProjectUrl>
+    <PackageTags>TimeWarp;MSBuild;Build;Tasks;Git;Metadata</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/TimeWarpEngineering/timewarp-build-tasks.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <PackageReleaseNotes>
+      For detailed release notes and changelog, please visit: https://github.com/TimeWarpEngineering/timewarp-build-tasks/releases
+    </PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Source Link Configuration">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(RepositoryRoot)assets\logo.png" Pack="true" PackagePath="/"/>
+    <None Include="$(MSBuildThisFileDirectory)readme.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+</Project>
