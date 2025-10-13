@@ -24,6 +24,8 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Publish to NuGet
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.PUBLISH_TO_NUGET_ORG }}
-      run: dotnet nuget push ./artifacts/packages/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: |
+        dotnet nuget push artifacts/packages/*.nupkg \
+        --api-key ${{ secrets.NUGET_API_KEY }} \
+        --source https://api.nuget.org/v3/index.json \
+        --skip-duplicate
