@@ -9,7 +9,7 @@
     <ArtifactsDirectory>$(RepositoryRoot)artifacts/</ArtifactsDirectory>
     <SolutionFile>$(RepositoryRoot)timewarp-build-tasks.slnx</SolutionFile>
     <LocalNuGetFeed>$(ArtifactsDirectory)packages/</LocalNuGetFeed>
-    <LocalNuGetCache>$(RepositoryRoot)local-nuget-feed/</LocalNuGetCache>
+    <LocalNuGetCache>$(RepositoryRoot)local-nuget-cache/</LocalNuGetCache>
   </PropertyGroup>
 
   <!-- Common compile parameters -->

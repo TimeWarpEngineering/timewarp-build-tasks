@@ -7,8 +7,9 @@
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
-    <File Path="LICENSE" />
-    <File Path="README.md" />
+    <File Path="license" />
+    <File Path="readme.md" />
+    <File Path="claude.md" />
   </Folder>
-  <Project Path="source\timewarp-build-tasks\TimeWarp.Build.Tasks.csproj" Type="Classic C#" />
+  <Project Path="source\timewarp-build-tasks\timewarp-build-tasks.csproj" Type="Classic C#" />
 </Solution>

@@ -1,17 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>    
+  <PropertyGroup>
     <!-- NuGet Package Settings -->
     <IsPackable>true</IsPackable>
     <PackageId>TimeWarp.Build.Tasks</PackageId>
     <Description>MSBuild tasks for TimeWarp projects including git metadata injection and build automation</Description>
     <PackageTags>msbuild;git;metadata;build;timewarp</PackageTags>
-    
+
     <!-- Prevent the DLL from being added as a lib reference -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <DevelopmentDependency>true</DevelopmentDependency>
-    
+
+    <!-- Disable symbol package for MSBuild task packages -->
+    <IncludeSymbols>false</IncludeSymbols>
+
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>
   </PropertyGroup>
