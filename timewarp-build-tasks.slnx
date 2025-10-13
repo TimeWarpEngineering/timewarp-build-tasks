@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="license" />
+    <File Path="readme.md" />
+    <File Path="claude.md" />
+  </Folder>
+  <Project Path="source\timewarp-build-tasks\timewarp-build-tasks.csproj" Type="Classic C#" />
+</Solution>

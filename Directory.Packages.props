@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Microsoft Build Tools -->
+    <PackageVersion Include="Microsoft.Build.Framework" Version="17.15.0-preview-25277-114" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.15.0-preview-25277-114" />
+    
+    <!-- SourceLink for deterministic builds -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+  </ItemGroup>
+</Project>

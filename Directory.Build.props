@@ -1,0 +1,35 @@
+<Project>
+  <!-- Custom path definitions for repository structure -->
+  <PropertyGroup Label="Custom Repository Variables">
+    <RepositoryName>timewarp-build-tasks</RepositoryName>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <SourceDirectory>$(RepositoryRoot)source/</SourceDirectory>
+    <TestsDirectory>$(RepositoryRoot)tests/</TestsDirectory>
+    <SamplesDirectory>$(RepositoryRoot)samples/</SamplesDirectory>
+    <ArtifactsDirectory>$(RepositoryRoot)artifacts/</ArtifactsDirectory>
+    <SolutionFile>$(RepositoryRoot)timewarp-build-tasks.slnx</SolutionFile>
+    <LocalNuGetFeed>$(ArtifactsDirectory)packages/</LocalNuGetFeed>
+    <LocalNuGetCache>$(RepositoryRoot)local-nuget-cache/</LocalNuGetCache>
+  </PropertyGroup>
+
+  <!-- Common compile parameters -->
+  <PropertyGroup Label="Project Defaults">
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>latest</LangVersion>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NoWarn>CS7035;NU1503;1503;1591</NoWarn>
+    <Nullable>enable</Nullable>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+    <!-- MSBuild and NuGet behavior configuration -->
+  <PropertyGroup Label="MSBuild/NuGet Configuration">
+    <!-- Use local packages directory instead of global cache -->
+    <RestorePackagesPath>$(LocalNuGetCache)</RestorePackagesPath>
+
+    <!-- Suppress .NET preview SDK message -->
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
+
+</Project>
