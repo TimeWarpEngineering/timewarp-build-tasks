@@ -6,7 +6,7 @@
   <PropertyGroup Label="Package Metadata">
     <Authors>Steven T. Cramer</Authors>
     <Product>TimeWarp.Build.Tasks</Product>
-    <PackageVersion>1.0.0-beta.4</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageProjectUrl>https://timewarpengineering.github.io/timewarp-build-tasks/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/TimeWarpEngineering/timewarp-build-tasks.git</RepositoryUrl>
