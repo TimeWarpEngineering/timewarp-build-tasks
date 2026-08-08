@@ -1,0 +1,80 @@
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Pipeline mode. merge = build only (default). release = break-glass publish; also requires confirm.'
+        type: choice
+        options:
+          - merge
+          - release
+        default: merge
+      confirm:
+        description: 'Break-glass guard: type the word release to confirm publishing when mode is release. Ignored otherwise.'
+        type: string
+        default: ''
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for NuGet Trusted Publishing (OIDC)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for git metadata
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        dotnet-quality: 'preview'
+
+    - name: Validate break-glass confirmation
+      if: github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm != 'release'
+      run: |
+        echo "::error::mode=release requires confirm=release. Refusing break-glass publish."
+        exit 1
+
+    - name: NuGet login (OIDC Trusted Publishing)
+      if: >-
+        github.event_name == 'release' ||
+        (github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm == 'release')
+      id: nuget-login
+      uses: nuget/login@v1
+      with:
+        user: TimeWarp.Enterprises
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Upload artifacts
+      # CI path only — release path publishes packages instead of re-uploading
+      if: >-
+        github.event_name == 'push' ||
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'workflow_dispatch' && inputs.mode == 'merge')
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/packages/*.nupkg
+
+    - name: Publish to NuGet
+      if: >-
+        github.event_name == 'release' ||
+        (github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm == 'release')
+      run: |
+        dotnet nuget push artifacts/packages/*.nupkg \
+        --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
+        --source https://api.nuget.org/v3/index.json \
+        --skip-duplicate
