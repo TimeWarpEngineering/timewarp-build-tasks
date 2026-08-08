@@ -7,6 +7,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for NuGet Trusted Publishing (OIDC)
 
     steps:
     - name: Checkout code
@@ -20,12 +23,19 @@ jobs:
         dotnet-version: '10.0.x'
         dotnet-quality: 'preview'
 
+    - name: NuGet login (OIDC Trusted Publishing)
+      if: github.event_name == 'release'
+      id: nuget-login
+      uses: nuget/login@v1
+      with:
+        user: TimeWarp.Enterprises
+
     - name: Build
       run: dotnet build --configuration Release
 
     - name: Publish to NuGet
       run: |
         dotnet nuget push artifacts/packages/*.nupkg \
-        --api-key ${{ secrets.NUGET_API_KEY }} \
+        --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
         --source https://api.nuget.org/v3/index.json \
         --skip-duplicate
