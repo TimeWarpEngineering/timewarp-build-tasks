@@ -197,3 +197,86 @@ Do not delete secret until one green OIDC publish. Coordinate org-wide key revoc
 
 - Planning: plan agent (2026-08-08)
 - Implementation: build agent (2026-08-08)
+- Review: general (round 1), disposition clean (2026-08-08)
+- Orchestration: grok tw-orchestrate-task (2026-08-08)
+
+## Results
+
+### What was implemented
+
+Migrated the Release workflow from long-lived `secrets.NUGET_API_KEY` to NuGet Trusted Publishing via OIDC (`nuget/login@v1`). The existing NuGet.org trusted publishing policy for owner `TimeWarp.Enterprises` can now exchange a short-lived API key when a GitHub Release is published.
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `.github/workflows/release.yml` | Job `permissions` (`contents: read`, `id-token: write`); `nuget/login@v1` (`user: TimeWarp.Enterprises`, `id: nuget-login`, gated on `github.event_name == 'release'`); push uses `steps.nuget-login.outputs.NUGET_API_KEY` |
+| `kanban/.../task.md` + `review/` | Plan, checklist 1–3, review framework/round-1/disposition |
+
+### Key decisions / deviations
+
+- **Targeted migration only** — no reusable-workflow / nuru 458 convention conversion (not imminent in this repo).
+- Login step placed **before** Build so OIDC/policy failures fail fast.
+- Secret deletion / long-lived key revocation **not** performed here (checklist 4–5; org-wide via nuru **458-009** after a green OIDC publish).
+
+### Test outcomes
+
+- Local static verification: no `secrets.NUGET_API_KEY` under `.github/`; `build.yml` unchanged (no publish).
+- OIDC exchange and NuGet push cannot be exercised offline — require a real `release: published` run.
+
+### Phase 4b review
+
+| Field | Value |
+|-------|--------|
+| Effort / roster | 1 — general only |
+| Rounds | 1 |
+| Final counts | bug/suggestion/nit: 0 open, 0 fixed, 0 wontfix |
+| Disposition | **clean** |
+| Paths | `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md` |
+
+### Residual (operator / org)
+
+Checklist items remain open by design:
+
+1. **Verify** publish path end-to-end on the next GitHub Release (login + push + package on NuGet.org).
+2. **After verified**, revoke long-lived NuGet API key and delete GitHub secret `NUGET_API_KEY` — coordinate with nuru **458-009** (shared key may still be used by unmigrated repos).
+
+### How to validate
+
+**Smoke (static — code migration)**
+
+```bash
+# From repo root
+test -f .github/workflows/release.yml
+rg -n "id-token: write|nuget/login@v1|TimeWarp.Enterprises|steps.nuget-login.outputs.NUGET_API_KEY" .github/workflows/release.yml
+rg -n "secrets.NUGET_API_KEY" .github/ || true
+```
+
+**Expect**
+
+- `release.yml` contains job `permissions` with both `contents: read` and `id-token: write`.
+- `nuget/login@v1` with `user: TimeWarp.Enterprises` and `id: nuget-login`.
+- Publish step uses only `"${{ steps.nuget-login.outputs.NUGET_API_KEY }}"`.
+- `rg secrets.NUGET_API_KEY .github/` finds **no** matches.
+
+**Automated gate**
+
+```bash
+# No workflow unit tests in this repo; static check is the automated bar for the code change:
+rg -n "secrets.NUGET_API_KEY" .github/; test $? -eq 1
+# optional if actionlint is installed:
+# actionlint .github/workflows/release.yml
+```
+
+**Operator E2E (next release — residual)**
+
+1. Confirm NuGet.org trusted publishing policy: owner `TimeWarp.Enterprises`, repo `TimeWarpEngineering/timewarp-build-tasks`, workflow path `.github/workflows/release.yml`, no Environment.
+2. Merge this change to `master`, then publish a GitHub Release.
+3. Open the Release workflow run: **NuGet login** green, **Build** produces `artifacts/packages/*.nupkg`, **Publish to NuGet** green (or skip-duplicate if version already exists).
+4. Confirm package version on https://www.nuget.org/packages/TimeWarp.Build.Tasks/
+
+**Not in scope of this task’s code landing**
+
+- Live OIDC publish success (needs GitHub Release + NuGet.org policy match).
+- Deleting `NUGET_API_KEY` / revoking the long-lived NuGet key (after green run; nuru 458-009).
+- Reusable-workflow convention conversion.
