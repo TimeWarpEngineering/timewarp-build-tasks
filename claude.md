@@ -73,8 +73,8 @@ dotnet add package TimeWarp.Build.Tasks --version 1.0.0-beta.1
 
 ### Central Package Management
 All package versions are centrally managed in [Directory.Packages.props](Directory.Packages.props):
-- Microsoft.Build.Framework: 17.15.0-preview-25277-114
-- Microsoft.Build.Utilities.Core: 17.15.0-preview-25277-114
+- Microsoft.Build.Framework: 17.14.28
+- Microsoft.Build.Utilities.Core: 17.14.28
 
 ### Target Framework
 - **netstandard2.0** - Required for MSBuild task compatibility across .NET Framework and .NET Core/5+ builds
