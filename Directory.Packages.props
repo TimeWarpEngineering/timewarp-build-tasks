@@ -4,9 +4,12 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <!-- Microsoft Build Tools -->
-    <PackageVersion Include="Microsoft.Build.Framework" Version="17.15.0-preview-25277-114" />
-    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.15.0-preview-25277-114" />
+    <!-- Microsoft Build Tools.
+         17.14.28 is the patched 17.14 servicing pin. The previous
+         17.15.0-preview-25277-114 pin is GHSA-w3q9-fxm7-j8fq and fails
+         restore under the .NET 11 SDK (NU1903 + TreatWarningsAsErrors). -->
+    <PackageVersion Include="Microsoft.Build.Framework" Version="17.14.28" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.14.28" />
     
     <!-- SourceLink for deterministic builds -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
