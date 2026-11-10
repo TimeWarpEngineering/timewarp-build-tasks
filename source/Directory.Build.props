@@ -6,7 +6,7 @@
   <PropertyGroup Label="Package Metadata">
     <Authors>Steven T. Cramer</Authors>
     <Product>TimeWarp.Build.Tasks</Product>
-    <PackageVersion>1.0.0</PackageVersion>
+    <Version>1.0.0</Version>
     <PackageProjectUrl>https://timewarpengineering.github.io/timewarp-build-tasks/</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/TimeWarpEngineering/timewarp-build-tasks.git</RepositoryUrl>
@@ -37,8 +37,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(RepositoryRoot)assets/logo.png" Pack="true" PackagePath="/"/>
+    <None Include="$(RepositoryRoot)assets/logo.png" Pack="true" PackagePath="/" />
     <None Include="$(RepositoryRoot)readme.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>
+

@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, 'feature/**']
   push:
     branches: [ master ]
   release:
@@ -21,6 +21,10 @@ on:
         description: 'Break-glass guard: type the word release to confirm publishing when mode is release. Ignored otherwise.'
         type: string
         default: ''
+
+defaults:
+  run:
+    shell: pwsh
 
 jobs:
   ci:

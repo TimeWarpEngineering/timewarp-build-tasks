@@ -1,0 +1,9 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- The root Directory.Build.props pins netstandard2.0 for the MSBuild task package. The hook
+         runfiles are executables on TimeWarp.Amuru (net11.0 only), so override the TFM here. Task 006. -->
+    <TargetFramework>net11.0</TargetFramework>
+  </PropertyGroup>
+</Project>

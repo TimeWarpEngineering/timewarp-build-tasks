@@ -18,9 +18,14 @@
 
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>
+
+    <!-- RS0030: git-metadata-task runs git via ProcessStartInfo. It ships as a standalone netstandard2.0 DLL loaded inside MSBuild, so it cannot take the TimeWarp.Amuru dependency the repo-wide banned-symbols rule recommends. Task 006. -->
+    <NoWarn>$(NoWarn);RS0030</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- The root Directory.Build.props (ganda audit baseline) adds TimeWarp.Build.Tasks to every project; this project IS that package, so referencing itself is a restore cycle (NU1108). -->
+    <PackageReference Remove="TimeWarp.Build.Tasks" />
     <PackageReference Include="Microsoft.Build.Framework" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" PrivateAssets="all" />
   </ItemGroup>
@@ -31,9 +36,9 @@
     <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="build/netstandard2.0" />
     <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="buildTransitive/netstandard2.0" />
 
-    <!-- Package props in both folders -->
-    <None Include="build/TimeWarp.Build.Tasks.props" Pack="true" PackagePath="build" />
-    <None Include="build/TimeWarp.Build.Tasks.props" Pack="true" PackagePath="buildTransitive" />
+    <!-- Package props in both folders. On disk the file is kebab-case; NuGet only auto-imports build/<PackageId>.props, so PackagePath pins the exact PackageId casing. -->
+    <None Include="build/timewarp-build-tasks.props" Pack="true" PackagePath="build/TimeWarp.Build.Tasks.props" />
+    <None Include="build/timewarp-build-tasks.props" Pack="true" PackagePath="buildTransitive/TimeWarp.Build.Tasks.props" />
   </ItemGroup>
 
 </Project>
