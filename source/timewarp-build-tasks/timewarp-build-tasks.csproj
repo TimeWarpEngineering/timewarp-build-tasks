@@ -19,7 +19,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>
 
-    <!-- RS0030: git-metadata-task runs git via ProcessStartInfo. It ships as a standalone netstandard2.0 DLL loaded inside MSBuild, so it cannot take the TimeWarp.Amuru dependency the repo-wide banned-symbols rule recommends. Task 006. -->
+    <!-- RS0030: git-metadata-task runs git via ProcessStartInfo, which BannedSymbols.txt bans in favor of TimeWarp.Amuru. Amuru is deliberately not used here: this package supplies build tasks that other TimeWarp builds consume, so depending on Amuru could create an indirect circular dependency. The suppression is accepted in .timewarp/suppression-baseline.json. Task 006. -->
     <NoWarn>$(NoWarn);RS0030</NoWarn>
   </PropertyGroup>
 

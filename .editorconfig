@@ -425,3 +425,7 @@ dotnet_diagnostic.TWA002.severity = silent
 
 # IDE0290: Use primary constructor - disabled per project preference
 dotnet_diagnostic.IDE0290.severity = none
+
+[ganda.audit]
+# Tiny MSBuild task package with no test project, so there is nothing to collect coverage from (task 006).
+ci-code-coverage.severity = off
