@@ -11,7 +11,6 @@
     <ArtifactsDirectory>$(RepositoryRoot)artifacts/</ArtifactsDirectory>
     <SolutionFile>$(RepositoryRoot)timewarp-build-tasks.slnx</SolutionFile>
     <LocalNuGetFeed>$(ArtifactsDirectory)packages/</LocalNuGetFeed>
-    <LocalNuGetCache>$(RepositoryRoot)local-nuget-cache/</LocalNuGetCache>
   </PropertyGroup>
 
   <!-- Common compile parameters -->
@@ -27,9 +26,6 @@
 
     <!-- MSBuild and NuGet behavior configuration -->
   <PropertyGroup Label="MSBuild/NuGet Configuration">
-    <!-- Use local packages directory instead of global cache -->
-    <RestorePackagesPath>$(LocalNuGetCache)</RestorePackagesPath>
-
     <!-- Suppress .NET preview SDK message -->
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
   </PropertyGroup>
