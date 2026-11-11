@@ -14,8 +14,9 @@
 - [x] nuget-package-icon: use `PackagePath="\"` for logo.png
 - [x] Re-pack and diff nupkg against baseline (identical listing and nuspec)
 - [x] analyzer-suppressions: keep RS0030 NoWarn, accept it in `.timewarp/suppression-baseline.json` (documented hand edit), csproj comment states the Amuru circular-dependency reason
-- [x] source-file-line-cap: record the two gitignored `local-nuget-cache/` files in `.timewarp/line-cap-baseline.json`
+- [x] source-file-line-cap: removed the in-repo NuGet cache (root cause) instead of baselining it; `.timewarp/line-cap-baseline.json` deleted
 - [x] ci-code-coverage: `ci-code-coverage.severity = off` under `[ganda.audit]`
+- [x] Remove `RestorePackagesPath`/`LocalNuGetCache`, delete `local-nuget-cache/`, drop its gitignore line, re-seed suppression baseline (249 to 9 entries)
 - [x] Final audit clean, build and pack re-verified
 
 ## Session
@@ -26,7 +27,7 @@
 
 ### Audit counts
 - Before: Passed 11 / Failed 28 / Skipped 7
-- Final: Passed 42 / Failed 0 / Skipped 3
+- Final: Passed 42 / Failed 0 / Skipped 3 (re-run after the cache removal)
 
 ### What --fix changed
 `.github/workflows/workflow.yml`, `.gitignore`, `Directory.Build.props` (imports msbuild/repository.props; adds BannedApiAnalyzers, TimeWarp.SourceGenerators, TimeWarp.Build.Tasks package references), `Directory.Packages.props` (new pins; removed orphaned `Microsoft.SourceLink.GitHub` pin, which no project referenced), `source/Directory.Build.props` (`PackageVersion` renamed to `Version`, still 1.0.0), removed `.vscode/settings.json` from git. Added: `.editorconfig`, `.envrc`, `.githooks/`, `.timewarp/suppression-baseline.json`, `.vscode/tasks.json`, `BannedSymbols.txt`, `glossary.md`, `msbuild/repository.props`, `tools/dev-cli/` scaffold, and `.gitkeep` placeholders for `documentation/`, `skills/`, `tests/`, `kanban/archived`, `kanban/backlog`.
@@ -39,7 +40,7 @@
 
 ### Owner decisions applied (previously remaining failures)
 - `analyzer-suppressions`: `ProcessStartInfo` and `NoWarn RS0030` kept. The normal replacement, TimeWarp.Amuru, could create an indirect circular dependency for this build-tasks package. Accepted per `repo-audit.md` (raising the baseline is a hand edit of the JSON): `source/timewarp-build-tasks/timewarp-build-tasks.csproj` -> `RS0030: 1` in `.timewarp/suppression-baseline.json`.
-- `source-file-line-cap`: the hits are `local-nuget-cache/timewarp.nuru.devcli/4.0.0-beta.12/content/any/{endpoints/release-command.cs (609), services/nuget-version-service.cs (704)}`. They are gitignored (`.gitignore:78 local-nuget-cache/`, nothing tracked) but the check walks the disk and only skips `.git`, `obj`, `bin`, `artifacts`; it has no exclude key and does not honor .gitignore. Recorded both files in `.timewarp/line-cap-baseline.json` (the documented ratchet). Caveat: if a checkout has no restored cache, those entries are stale and the check would report them.
+- `source-file-line-cap`: the hits were restored package files under gitignored `local-nuget-cache/`. The check walks the disk and ignores .gitignore (skips only `.git`, `obj`, `bin`, `artifacts`; no exclude key). Owner decision: remove the cache entirely. `RestorePackagesPath` pointed at it, but nothing in the repo restores from a local feed, so the isolation did nothing. Removed `RestorePackagesPath` and `LocalNuGetCache` from root `Directory.Build.props` (kept `LocalNuGetFeed`, the PackageOutputPath), deleted the 607 MB directory, dropped its `.gitignore` line (no check required it), deleted `.timewarp/line-cap-baseline.json`, and re-seeded `.timewarp/suppression-baseline.json` with `ganda repo audit --fix` (249 entries down to 9, no `local-nuget-cache` entries, `RS0030: 1` for the csproj kept). Packages now restore to the global `~/.nuget/packages`.
 - `ci-code-coverage`: off in `.editorconfig` (no test project).
 
 ### Verification
