@@ -101,3 +101,4 @@ Expect:
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session c831b817-a3c3-4240-9fd7-3ae112d4b7b4, max-turns 500, Done — 2026-11-11T08:35:03Z
 - Reviewer: OpenCode session ses_e3640a20cffeHrHGCcvPZAmpIT (Grok 4.7, 2026-11-11), effort 1, roster general, turn cap 80, disposition clean
 - Review oracle: review by reviewer-opencode (opencode, vendor xai, model opencode-go/grok-4.7, response model grok-4.7), session not reported, max-turns uncapped (no --max-turns flag; bound 80), artifacts general.md, merged.md, disposition.md — 2026-11-11T08:43:24Z
+- Installed ganda changed during this walk: was 52431880 bytes c7bbb61cd011fc4249bc48c66cafc9f933344941eca4d4e2bd3c7da7b9a4cf32; now 52628808 bytes d6bd84c9ac2432acf2849a33cc96cb97e1e7463a7039bbbcbe0b2cbd9db2c6c1
