@@ -17,12 +17,12 @@ As of 2026-10-03: library TFM is `netstandard2.0`; only package deps are `Micros
 
 ## Checklist
 
-- [ ] Install / use .NET 11 SDK on the build host; record `dotnet --version`.
-- [ ] `dotnet build` + `dotnet pack` on `timewarp-build-tasks.slnx` under SDK 11 (warnings-as-errors clean).
-- [ ] Smoke: reference the local nupkg from a throwaway `net10.0` or `net11.0` project; confirm `CommitHash` / `CommitDate` metadata after build.
-- [ ] Bump `Microsoft.Build.*` CPM pins only if load/pack fails under SDK 11; document why.
-- [ ] Spot-check README / docs for misleading "must use net10" language; leave `netstandard2.0` story clear.
-- [ ] CI (`.github/workflows/workflow.yml`): confirm green (or note if runner lacks SDK 11 yet).
+- [x] Install / use .NET 11 SDK on the build host; record `dotnet --version`.
+- [x] `dotnet build` + `dotnet pack` on `timewarp-build-tasks.slnx` under SDK 11 (warnings-as-errors clean).
+- [x] Smoke: reference the local nupkg from a throwaway `net10.0` or `net11.0` project; confirm `CommitHash` / `CommitDate` metadata after build.
+- [x] Bump `Microsoft.Build.*` CPM pins only if load/pack fails under SDK 11; document why.
+- [x] Spot-check README / docs for misleading "must use net10" language; leave `netstandard2.0` story clear.
+- [x] CI (`.github/workflows/workflow.yml`): confirm green (or note if runner lacks SDK 11 yet).
 
 ## Notes
 
@@ -42,3 +42,7 @@ As of 2026-10-03: library TFM is `netstandard2.0`; only package deps are `Micros
 
 - Created: 1154329 (2026-10-03 Asia/Bangkok)
 - Kitchen authored on TWE-001 for Grok Bot / cloud agent pickup
+
+## Results
+
+Closed 2026-11-11: delivered by PR 7 (merged 2026-10-13), which smoke-verified build, pack and a net11.0 consumer under SDK 11.0.100-rc.1 and pinned Microsoft.Build.* to 17.14.28. That PR left these checkboxes unchanged. Task 006 (PR 8) later built and packed under SDK 11.0.100. CI still installed the 10.0.x preview SDK at close; that is handled as a separate task.
