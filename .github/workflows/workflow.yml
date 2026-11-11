@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, 'feature/**']
   push:
     branches: [ master ]
   release:
@@ -21,6 +21,10 @@ on:
         description: 'Break-glass guard: type the word release to confirm publishing when mode is release. Ignored otherwise.'
         type: string
         default: ''
+
+defaults:
+  run:
+    shell: pwsh
 
 jobs:
   ci:
@@ -80,8 +84,5 @@ jobs:
       if: >-
         github.event_name == 'release' ||
         (github.event_name == 'workflow_dispatch' && inputs.mode == 'release' && inputs.confirm == 'release')
-      run: |
-        dotnet nuget push artifacts/packages/*.nupkg \
-        --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
-        --source https://api.nuget.org/v3/index.json \
-        --skip-duplicate
+      # Single line: the workflow default shell is pwsh, where bash "\" line continuations do not work.
+      run: dotnet nuget push artifacts/packages/*.nupkg --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

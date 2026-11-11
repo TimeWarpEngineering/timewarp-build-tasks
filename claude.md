@@ -24,7 +24,7 @@ This is a **build-time dependency package** (not a runtime library):
    - Runs during `BeforeTargets="CoreCompile"`
    - Can be disabled by setting `TimeWarpEnableGitMetadata=false`
 
-2. **Task Registration** ([TimeWarp.Build.Tasks.props](source/timewarp-build-tasks/build/TimeWarp.Build.Tasks.props))
+2. **Task Registration** ([timewarp-build-tasks.props](source/timewarp-build-tasks/build/timewarp-build-tasks.props))
    - Defines the `UsingTask` declaration
    - Configures automatic execution target
    - Automatically applied to consuming projects via `build/` and `buildTransitive/` paths
@@ -90,7 +90,7 @@ All package versions are centrally managed in [Directory.Packages.props](Directo
 1. Create task class inheriting from `Microsoft.Build.Utilities.Task`
 2. Define `[Output]` properties for task results
 3. Implement `Execute()` method
-4. Register in `build/TimeWarp.Build.Tasks.props`:
+4. Register in `source/timewarp-build-tasks/build/timewarp-build-tasks.props` (packed as `build/TimeWarp.Build.Tasks.props`):
    ```xml
    <UsingTask TaskName="TimeWarp.Build.Tasks.YourTask"
               AssemblyFile="$(MSBuildThisFileDirectory)netstandard2.0/TimeWarp.Build.Tasks.dll" />
