@@ -20,7 +20,6 @@
       "RCS9001": 1,
       "RCS9002": 1,
       "RCS9003": 1,
-      "TWA002": 1,
       "ca1308": 1
     },
     ".githooks/post-checkout.cs": {
