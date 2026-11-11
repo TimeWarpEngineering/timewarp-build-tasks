@@ -23,6 +23,7 @@ Leave this task in to-do, unassigned, until an implementer picks it up.
    - Any other TWA/TW0* editorconfig or baseline entries that become orphaned once the package is gone.
 5. Update the ganda audit so a later `ganda repo audit --fix` does not put the Source Generators reference back (task 006's audit baseline added it). The audit for this repo must be clean, or must explicitly allow this repo not to take that package. Do not replace the reference with any other core TimeWarp package.
 6. Build and tests must pass on the net11 SDK. The shipped package stays on `netstandard2.0` (MSBuild task; do not retarget).
+7. Bump `<Version>` in `source/Directory.Build.props` from `1.0.1` to `1.0.2` in this same task, so the change can be released as soon as it merges (1.0.1 is already published). Do not change the `TimeWarp.Build.Tasks` `PackageVersion` pin in `Directory.Packages.props`; that is the published version the repo consumes.
 
 ## Checklist
 
@@ -33,11 +34,13 @@ Leave this task in to-do, unassigned, until an implementer picks it up.
 - [ ] Clean leftover `TWA002` (and any other orphaned TW/TWA) entries in `.timewarp/suppression-baseline.json`
 - [ ] Update the ganda audit so `--fix` will not re-add the package; audit is clean or documents the exemption
 - [ ] Build and tests pass on the net11 SDK (package remains `netstandard2.0`)
+- [ ] Bump `<Version>` to `1.0.2` in `source/Directory.Build.props`; `dev check-version` passes
 
 ## Acceptance
 
 - No `TimeWarp.SourceGenerators` reference anywhere in the repo.
 - Build and tests pass on the net11 SDK.
+- `<Version>` is `1.0.2` and `dev check-version` reports it as new.
 - The ganda audit is updated so the baseline no longer requires this package, and `--fix` will not restore the cycle.
 
 ## Notes
@@ -49,3 +52,4 @@ Leave this task in to-do, unassigned, until an implementer picks it up.
 ## Session
 
 - Created: 3235355 (2026-11-11)
+- Scope added: version bump to 1.0.2 in this task, merge automatically, release when green (Steven, 2026-11-11, session ccd4893c)
