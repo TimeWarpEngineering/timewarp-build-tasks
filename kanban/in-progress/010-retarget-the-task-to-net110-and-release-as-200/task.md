@@ -224,3 +224,4 @@ Expect:
 
 - Created: ccd4893c-4c6d-47fb-9913-a5368de1e1b4 (2026-11-11), from Steven's instruction in that session
 - Implement (task-work, 2026-11-11): retarget to net11.0, 2.0.0, TWBT0001 guard, docs; gates and consumer smoke green.
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 4981f9a9-4508-4dff-9c11-7104a1103c11, max-turns 500, Done — 2026-11-11T12:28:06Z
