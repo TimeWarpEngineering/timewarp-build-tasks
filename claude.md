@@ -17,49 +17,51 @@ This is a **build-time dependency package** (not a runtime library):
 
 ### Key Components
 
-1. **GitMetadataTask** ([GitMetadataTask.cs](source/timewarp-build-tasks/GitMetadataTask.cs))
+1. **GitMetadataTask** ([git-metadata-task.cs](source/timewarp-build-tasks/git-metadata-task.cs))
    - Executes `git rev-parse HEAD` to get commit hash
    - Executes `git log -1 --format=%ct` to get commit timestamp
    - Injects data as AssemblyMetadata attributes: `CommitHash` and `CommitDate`
-   - Runs during `BeforeTargets="CoreCompile"`
+   - Runs `BeforeTargets="GetAssemblyAttributes;GenerateAssemblyInfo"`
    - Can be disabled by setting `TimeWarpEnableGitMetadata=false`
 
 2. **Task Registration** ([timewarp-build-tasks.props](source/timewarp-build-tasks/build/timewarp-build-tasks.props))
    - Defines the `UsingTask` declaration
    - Configures automatic execution target
+   - Emits error `TWBT0001` when MSBuild is not running on .NET 11+ (Visual Studio, `MSBuild.exe`, older SDKs)
    - Automatically applied to consuming projects via `build/` and `buildTransitive/` paths
 
 ### Package Layout
 ```
 build/
-  netstandard2.0/TimeWarp.Build.Tasks.dll  (task assembly)
-  TimeWarp.Build.Tasks.props               (auto-imported)
+  net11.0/TimeWarp.Build.Tasks.dll  (task assembly)
+  TimeWarp.Build.Tasks.props        (auto-imported)
 buildTransitive/
-  TimeWarp.Build.Tasks.props               (transitive imports)
+  net11.0/TimeWarp.Build.Tasks.dll  (task assembly)
+  TimeWarp.Build.Tasks.props        (transitive imports)
 ```
 
 ## Build Commands
 
 ### Build the package
 ```bash
-dotnet build source/timewarp-build-tasks/TimeWarp.Build.Tasks.csproj
+dotnet build source/timewarp-build-tasks/timewarp-build-tasks.csproj
 ```
 
 ### Pack for NuGet
 ```bash
-dotnet pack source/timewarp-build-tasks/TimeWarp.Build.Tasks.csproj -c Release
+dotnet pack source/timewarp-build-tasks/timewarp-build-tasks.csproj -c Release
 ```
 
 ### Install locally for testing
 ```bash
 # Build and pack
-dotnet pack source/timewarp-build-tasks/TimeWarp.Build.Tasks.csproj -c Release -o artifacts/packages
+dotnet pack source/timewarp-build-tasks/timewarp-build-tasks.csproj -c Release -o artifacts/packages
 
 # In consuming project, add package source
 dotnet nuget add source /path/to/artifacts/packages
 
 # Reference in consuming project
-dotnet add package TimeWarp.Build.Tasks --version 1.0.0-beta.1
+dotnet add package TimeWarp.Build.Tasks --version 2.0.0
 ```
 
 ## Solution Structure
@@ -73,17 +75,19 @@ dotnet add package TimeWarp.Build.Tasks --version 1.0.0-beta.1
 
 ### Central Package Management
 All package versions are centrally managed in [Directory.Packages.props](Directory.Packages.props):
-- Microsoft.Build.Framework: 17.14.28
-- Microsoft.Build.Utilities.Core: 17.14.28
+- Microsoft.Build.Framework: 18.12.2
+- Microsoft.Build.Utilities.Core: 18.12.2
+
+These must not be newer than the MSBuild in the minimum supported SDK (.NET SDK 11.0.100 ships
+MSBuild 18.12.2); a task compiled against a newer MSBuild fails to load.
 
 ### Target Framework
-- **netstandard2.0** - Required for MSBuild task compatibility across .NET Framework and .NET Core/5+ builds
+- **net11.0** - From 2.0.0 the task runs only in MSBuild on .NET 11+ (`dotnet build` with the .NET 11 SDK).
+  Visual Studio and `MSBuild.exe` (.NET Framework MSBuild) are not supported; consumers on those stay on 1.x.
 
 ### Important Properties
-- `LangVersion=latest` - Uses latest C# features
 - `Nullable=enable` - Nullable reference types enabled
 - `TreatWarningsAsErrors=true` - All warnings are errors
-- `CopyLocalLockFileAssemblies=true` - Includes dependencies in output
 
 ## Adding New MSBuild Tasks
 
@@ -93,7 +97,8 @@ All package versions are centrally managed in [Directory.Packages.props](Directo
 4. Register in `source/timewarp-build-tasks/build/timewarp-build-tasks.props` (packed as `build/TimeWarp.Build.Tasks.props`):
    ```xml
    <UsingTask TaskName="TimeWarp.Build.Tasks.YourTask"
-              AssemblyFile="$(MSBuildThisFileDirectory)netstandard2.0/TimeWarp.Build.Tasks.dll" />
+              AssemblyFile="$(MSBuildThisFileDirectory)net11.0/TimeWarp.Build.Tasks.dll"
+              Condition="'$(MSBuildRuntimeType)' == 'Core'" />
 
    <Target Name="YourTarget" BeforeTargets="CoreCompile">
      <YourTask />
@@ -104,7 +109,7 @@ All package versions are centrally managed in [Directory.Packages.props](Directo
 
 - **License**: Unlicense
 - **Author**: Steven T. Cramer
-- **PackageVersion**: 1.0.0-beta.1 (defined in Directory.Build.props)
+- **PackageVersion**: 2.0.0 (defined in source/Directory.Build.props)
 - **Repository**: https://github.com/TimeWarpEngineering/timewarp-build-tasks
 
 ## SourceLink Configuration

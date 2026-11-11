@@ -7,7 +7,7 @@
 [![nuget](https://img.shields.io/nuget/dt/TimeWarp.Build.Tasks?logo=nuget)](https://www.nuget.org/packages/TimeWarp.Build.Tasks/)
 
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FTimeWarpEngineering%2Ftimewarp-build-tasks)](https://twitter.com/intent/tweet?url=https://github.com/TimeWarpEngineering/timewarp-build-tasks)
-[![Dotnet](https://img.shields.io/badge/dotnet-10.0-blue)](https://dotnet.microsoft.com)
+[![Dotnet](https://img.shields.io/badge/dotnet-11.0-blue)](https://dotnet.microsoft.com)
 
 [![Discord](https://img.shields.io/discord/715274085940199487?logo=discord)](https://discord.gg/7F4bS2T)
 [![Twitter](https://img.shields.io/twitter/follow/StevenTCramer.svg)](https://twitter.com/intent/follow?screen_name=StevenTCramer)
@@ -32,6 +32,18 @@ If you find this project useful, please give it a star. Thanks!
 - **Transitive Support** - Automatically applied to projects that reference packages using this library
 - **Configurable** - Can be disabled per-project with `TimeWarpEnableGitMetadata=false`
 - **Fallback Handling** - Gracefully handles non-git repositories without breaking builds
+
+## Requirements
+
+From **2.0.0** the task assembly targets `net11.0` only:
+
+- **.NET 11 SDK or later**, building with the `dotnet` CLI (`dotnet build`, `dotnet pack`, ...).
+- **Not supported:** Visual Studio and `MSBuild.exe` (.NET Framework MSBuild), and older .NET SDKs.
+  Under those hosts the package stops the build with error `TWBT0001` that names this requirement.
+  Use **TimeWarp.Build.Tasks 1.x** if you still build with them, or set
+  `TimeWarpEnableGitMetadata=false` for those builds.
+
+The consuming project may target any framework; the requirement is on the MSBuild that runs the build.
 
 ## Installation
 

@@ -16,7 +16,6 @@
     <!-- Disable symbol package for MSBuild task packages -->
     <IncludeSymbols>false</IncludeSymbols>
 
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>
 
     <!-- RS0030: git-metadata-task runs git via ProcessStartInfo, which BannedSymbols.txt bans in favor of TimeWarp.Amuru. Amuru is deliberately not used here: this package supplies build tasks that other TimeWarp builds consume, so depending on Amuru could create an indirect circular dependency. The suppression is accepted in .timewarp/suppression-baseline.json. Task 006. -->
@@ -33,8 +32,8 @@
   <!-- Package the task DLL in both build and buildTransitive folders -->
   <ItemGroup>
     <!-- Package DLL in both build and buildTransitive -->
-    <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="build/netstandard2.0" />
-    <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="buildTransitive/netstandard2.0" />
+    <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="build/net11.0" />
+    <None Include="$(OutputPath)$(AssemblyName).dll" Pack="true" PackagePath="buildTransitive/net11.0" />
 
     <!-- Package props in both folders. On disk the file is kebab-case; NuGet only auto-imports build/<PackageId>.props, so PackagePath pins the exact PackageId casing. -->
     <None Include="build/timewarp-build-tasks.props" Pack="true" PackagePath="build/TimeWarp.Build.Tasks.props" />

@@ -15,12 +15,10 @@
 
   <!-- Common compile parameters -->
   <PropertyGroup Label="Project Defaults">
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <LangVersion>latest</LangVersion>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <NoWarn>CS7035;NU1503;1503;1591</NoWarn>
     <Nullable>enable</Nullable>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

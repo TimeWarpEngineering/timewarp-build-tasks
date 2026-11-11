@@ -5,14 +5,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <!-- Microsoft Build Tools.
-         17.14.28 is the patched 17.14 servicing pin. The previous
-         17.15.0-preview-25277-114 pin is GHSA-w3q9-fxm7-j8fq and fails
-         restore under the .NET 11 SDK (NU1903 + TreatWarningsAsErrors). -->
-    <PackageVersion Include="Microsoft.Build.Framework" Version="17.14.28" />
-    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="17.14.28" />
+    <!-- Microsoft Build Tools. Compile-time only (PrivateAssets=all, not packed).
+         Must not be newer than the MSBuild in the minimum supported SDK: a task built
+         against a newer MSBuild fails to load. .NET SDK 11.0.100 ships MSBuild 18.12.2. Task 010. -->
+    <PackageVersion Include="Microsoft.Build.Framework" Version="18.12.2" />
+    <PackageVersion Include="Microsoft.Build.Utilities.Core" Version="18.12.2" />
     
     <!-- SourceLink for deterministic builds -->
     
-  <PackageVersion Include="TimeWarp.Build.Tasks" Version="1.0.0" /><PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.6.0"><PrivateAssets>all</PrivateAssets><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets></PackageVersion><PackageVersion Include="TimeWarp.Nuru" Version="4.0.0-beta.12" /><PackageVersion Include="TimeWarp.Amuru" Version="3.0.0-beta.2" /><PackageVersion Include="TimeWarp.Amuru.Tools" Version="3.0.0-beta.2" /><PackageVersion Include="TimeWarp.Terminal" Version="2.0.0-beta.1" /><PackageVersion Include="TimeWarp.Nuru.DevCli" Version="4.0.0-beta.12" /></ItemGroup>
+  <PackageVersion Include="TimeWarp.Build.Tasks" Version="1.0.2" /><PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.6.0"><PrivateAssets>all</PrivateAssets><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets></PackageVersion><PackageVersion Include="TimeWarp.Nuru" Version="4.0.0-beta.12" /><PackageVersion Include="TimeWarp.Amuru" Version="3.0.0-beta.2" /><PackageVersion Include="TimeWarp.Amuru.Tools" Version="3.0.0-beta.2" /><PackageVersion Include="TimeWarp.Terminal" Version="2.0.0-beta.1" /><PackageVersion Include="TimeWarp.Nuru.DevCli" Version="4.0.0-beta.12" /></ItemGroup>
 </Project>
