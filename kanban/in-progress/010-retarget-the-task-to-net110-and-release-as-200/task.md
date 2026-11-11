@@ -93,6 +93,10 @@ repo's HEAD. No publish/tag.
   Record the commands and values under Results.
 - `unzip -l` of the nupkg is recorded under Results and shows no `netstandard2.0` path.
 
+## Review
+
+- Round 1: Done
+
 ## Notes
 
 - Do not publish or tag. Stop at the open pull request; release is a separate human step.
@@ -220,8 +224,16 @@ Expect:
 - `./bin/dev check-version` reports 2.0.0 as new; `ganda repo audit` passes.
 - Under Visual Studio / `MSBuild.exe`, building a consumer fails with a single `TWBT0001` error.
 
+### Review
+
+Round 1, effort 2, roster general (OpenCode session `ses_e356b42d2ffewQ7saGnnBAuAE5`, 2026-11-11). The implementer restatement matches the original task; no misread. No findings. Disposition: **clean**. Final counts: bug 0 open / 0 fixed / 0 wontfix, suggestion 0, nit 0. No wontfix and no escalation.
+
+Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
 ## Session
 
 - Created: ccd4893c-4c6d-47fb-9913-a5368de1e1b4 (2026-11-11), from Steven's instruction in that session
 - Implement (task-work, 2026-11-11): retarget to net11.0, 2.0.0, TWBT0001 guard, docs; gates and consumer smoke green.
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 4981f9a9-4508-4dff-9c11-7104a1103c11, max-turns 500, Done — 2026-11-11T12:28:06Z
+- Reviewer: OpenCode session ses_e356b42d2ffewQ7saGnnBAuAE5 (2026-11-11), effort 2, roster general, turn cap 120. Round 1 clean, 0 findings.
+- Review oracle: review by reviewer-opencode (opencode, vendor xai, model opencode-go/grok-4.7, response model grok-4.7), session not reported, max-turns uncapped (no --max-turns flag; bound 120), artifacts general.md, merged.md, disposition.md — 2026-11-11T12:37:23Z
