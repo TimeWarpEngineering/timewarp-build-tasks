@@ -1,13 +1,25 @@
 <Project>
-  <!-- Define the custom task -->
+  <!-- Define the custom task. From 2.0.0 the task assembly targets net11.0 only, so it loads
+       only in MSBuild running on .NET 11+ (dotnet build with the .NET 11 SDK). -->
   <UsingTask TaskName="TimeWarp.Build.Tasks.GitMetadataTask"
-             AssemblyFile="$(MSBuildThisFileDirectory)netstandard2.0/TimeWarp.Build.Tasks.dll" />
+             AssemblyFile="$(MSBuildThisFileDirectory)net11.0/TimeWarp.Build.Tasks.dll"
+             Condition="'$(MSBuildRuntimeType)' == 'Core'" />
 
   <!-- Automatically inject git metadata into all projects that reference this package -->
   <!-- Can be disabled by setting TimeWarpEnableGitMetadata to false -->
   <Target Name="TimeWarpSetGitMetadata"
           BeforeTargets="GetAssemblyAttributes;GenerateAssemblyInfo"
           Condition="'$(TimeWarpEnableGitMetadata)' != 'false'">
+    <!-- Visual Studio and MSBuild.exe run MSBuild on .NET Framework, and older .NET SDKs run it on
+         an older runtime. Neither can load a net11.0 task, so fail with one clear message instead
+         of an obscure task-load error. -->
+    <PropertyGroup>
+      <_TimeWarpBuildTasksMSBuildRuntimeVersion>$([System.Environment]::Version.ToString())</_TimeWarpBuildTasksMSBuildRuntimeVersion>
+    </PropertyGroup>
+    <Error Condition="'$(MSBuildRuntimeType)' != 'Core' Or $([MSBuild]::VersionLessThan('$(_TimeWarpBuildTasksMSBuildRuntimeVersion)', '11.0'))"
+           Code="TWBT0001"
+           Text="TimeWarp.Build.Tasks 2.x requires the .NET 11 SDK or later and must be built with the dotnet CLI (dotnet build). Visual Studio and MSBuild.exe (.NET Framework MSBuild) are not supported from 2.0.0; use TimeWarp.Build.Tasks 1.x for those, or set TimeWarpEnableGitMetadata=false. Current MSBuild: $(MSBuildRuntimeType) runtime $(_TimeWarpBuildTasksMSBuildRuntimeVersion), MSBuild $(MSBuildVersion)." />
+
     <GitMetadataTask>
       <Output TaskParameter="CommitHash" PropertyName="CommitHash"/>
       <Output TaskParameter="CommitDate" PropertyName="CommitDate"/>
