@@ -52,11 +52,11 @@ Then:
 
 ## Checklist
 
-- [ ] Root `.gitignore` has `*.journal.json`
-- [ ] `git ls-files '*.journal.json'` is empty
-- [ ] Audit `routine-journals-gitignore` PASSes
-- [ ] `git check-ignore -v` confirms ignore; porcelain does not list journals
-- [ ] Do not implement on `master`
+- [x] Root `.gitignore` has `*.journal.json`
+- [x] `git ls-files '*.journal.json'` is empty
+- [x] Audit `routine-journals-gitignore` PASSes
+- [x] `git check-ignore -v` confirms ignore; porcelain does not list journals
+- [x] Do not implement on `master`
 
 ## Notes
 
@@ -89,3 +89,7 @@ clean; host unstage-all (ganda).
 - Trigger: `/tw-merge` software 033 — GC refused, then leftover journal
   committed; 262 left consumer sweep out of scope
 - Pattern: `*.journal.json` (cockpit, 2026-09-03) — one glob, not six names
+
+## Results
+
+Closed 2026-11-11 without separate work: task 006 (PR 8) applied `ganda repo audit --fix`, which added `*.journal.json` to root `.gitignore`. `git ls-files '*.journal.json'` is empty, `git check-ignore` hits the new line, and `routine-journals-gitignore` passes.
