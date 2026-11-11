@@ -14,7 +14,7 @@ Install `11.0.x` at release quality instead. The package stays on `netstandard2.
 
 - [x] Set `dotnet-version: '11.0.x'` and remove `dotnet-quality`
 - [x] `ganda repo audit` passes
-- [ ] CI green on the pull request, with the installed SDK version recorded under Results
+- [x] CI green on the pull request, with the installed SDK version recorded under Results
 
 ## Session
 
@@ -24,3 +24,7 @@ Install `11.0.x` at release quality instead. The package stays on `netstandard2.
 
 Local SDK is `11.0.100`. No `global.json` in this repo; pinning through `global.json`
 (as timewarp-state and timewarp-amuru do) was not adopted here.
+
+## Results
+
+PR 9. CI passed and the setup step logged `dotnet-install: Installed version is 11.0.100`.
