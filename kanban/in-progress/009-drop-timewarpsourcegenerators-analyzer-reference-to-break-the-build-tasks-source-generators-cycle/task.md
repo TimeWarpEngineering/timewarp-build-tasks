@@ -55,6 +55,10 @@ core-repo dependency. Done means:
 - `<Version>` is `1.0.2` and `dev check-version` reports it as new.
 - The ganda audit is updated so the baseline no longer requires this package, and `--fix` will not restore the cycle.
 
+## Review
+
+- Round 1: Done
+
 ## Notes
 
 - The self-`TimeWarp.Build.Tasks` `PackageReference` in the same `Directory.Build.props` ItemGroup, and the `PackageReference Remove="TimeWarp.Build.Tasks"` in `source/timewarp-build-tasks/timewarp-build-tasks.csproj` (NU1108, task 006), are out of scope. Do not drop those unless they become broken by this change.
@@ -70,6 +74,7 @@ core-repo dependency. Done means:
 - Bumped `<Version>` in `source/Directory.Build.props` 1.0.1 -> 1.0.2. The `TimeWarp.Build.Tasks` 1.0.0 consume pin is unchanged.
 - Gates on .NET SDK 11.0.100: `./bin/dev build` (0 warnings, 0 errors, packs `TimeWarp.Build.Tasks.1.0.2.nupkg`, netstandard2.0), `./bin/dev test` passes, `./bin/dev verify-samples` passes, `./bin/dev check-version` reports 1.0.2 new (NuGet latest 1.0.1), `ganda repo audit` reports "Repository passes all audit checks". `project.assets.json` has no SourceGenerators entry.
 - `git grep -i sourcegenerators -- ':!kanban'` finds only the `.editorconfig` comment that explains the exemption.
+- Review: round 1, effort 1, roster general. Counts: bug 0, suggestion 0, nit 0 (all open/fixed/wontfix 0). Disposition: clean. No wontfix, no escalation. Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`. Restatement matches the original task; no misread.
 
 ### How to validate
 
@@ -94,3 +99,5 @@ Expect:
 - Scope added: version bump to 1.0.2 in this task, merge automatically, release when green (Steven, 2026-11-11, session ccd4893c)
 - Implemented 2026-11-11 (implement oracle): removed package, editorconfig/baseline cleanup, audit exemption, version 1.0.2
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session c831b817-a3c3-4240-9fd7-3ae112d4b7b4, max-turns 500, Done — 2026-11-11T08:35:03Z
+- Reviewer: OpenCode session ses_e3640a20cffeHrHGCcvPZAmpIT (Grok 4.7, 2026-11-11), effort 1, roster general, turn cap 80, disposition clean
+- Review oracle: review by reviewer-opencode (opencode, vendor xai, model opencode-go/grok-4.7, response model grok-4.7), session not reported, max-turns uncapped (no --max-turns flag; bound 80), artifacts general.md, merged.md, disposition.md — 2026-11-11T08:43:24Z
