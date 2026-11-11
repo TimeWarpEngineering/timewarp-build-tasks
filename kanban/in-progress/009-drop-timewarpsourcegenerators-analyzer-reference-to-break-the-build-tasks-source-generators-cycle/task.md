@@ -12,6 +12,18 @@ Steven considered and rejected splitting the analyzers into a separate package i
 
 Leave this task in to-do, unassigned, until an implementer picks it up.
 
+## Goal (implementer restatement)
+
+Break the Build Tasks <-> Source Generators repo cycle by removing the lint-only
+`TimeWarp.SourceGenerators` analyzer package from this repo, so Build Tasks has no
+core-repo dependency. Done means:
+
+- No `TimeWarp.SourceGenerators` `PackageReference`/`PackageVersion` (or other reference) remains.
+- The `.editorconfig` TW0007/TWA002 entries and the `TWA002` baseline entry that only existed for that package are gone.
+- `ganda repo audit` passes, and its `global-usings-analyzer` check (which pins the package) is turned off with a reason, so `--fix` cannot re-add it.
+- Build, tests, and samples pass on the net11 SDK; the package stays `netstandard2.0`.
+- `<Version>` is `1.0.2` and `dev check-version` reports it as new.
+
 ## Requirements
 
 1. Remove the `TimeWarp.SourceGenerators` `PackageReference` from root `Directory.Build.props` (currently the minified ItemGroup on line 33, `PrivateAssets=all`).
@@ -27,14 +39,14 @@ Leave this task in to-do, unassigned, until an implementer picks it up.
 
 ## Checklist
 
-- [ ] Remove `TimeWarp.SourceGenerators` `PackageReference` from `Directory.Build.props`
-- [ ] Remove `TimeWarp.SourceGenerators` `PackageVersion` from `Directory.Packages.props`
-- [ ] Confirm no `TimeWarp.SourceGenerators` reference remains anywhere in the repo
-- [ ] Clean leftover `.editorconfig` TW0007 / TWA002 (and any other orphaned TW/TWA) settings
-- [ ] Clean leftover `TWA002` (and any other orphaned TW/TWA) entries in `.timewarp/suppression-baseline.json`
-- [ ] Update the ganda audit so `--fix` will not re-add the package; audit is clean or documents the exemption
-- [ ] Build and tests pass on the net11 SDK (package remains `netstandard2.0`)
-- [ ] Bump `<Version>` to `1.0.2` in `source/Directory.Build.props`; `dev check-version` passes
+- [x] Remove `TimeWarp.SourceGenerators` `PackageReference` from `Directory.Build.props`
+- [x] Remove `TimeWarp.SourceGenerators` `PackageVersion` from `Directory.Packages.props`
+- [x] Confirm no `TimeWarp.SourceGenerators` reference remains anywhere in the repo
+- [x] Clean leftover `.editorconfig` TW0007 / TWA002 (and any other orphaned TW/TWA) settings
+- [x] Clean leftover `TWA002` (and any other orphaned TW/TWA) entries in `.timewarp/suppression-baseline.json`
+- [x] Update the ganda audit so `--fix` will not re-add the package; audit is clean or documents the exemption
+- [x] Build and tests pass on the net11 SDK (package remains `netstandard2.0`)
+- [x] Bump `<Version>` to `1.0.2` in `source/Directory.Build.props`; `dev check-version` passes
 
 ## Acceptance
 
@@ -49,7 +61,35 @@ Leave this task in to-do, unassigned, until an implementer picks it up.
 - RS0030 / BannedApiAnalyzers / the Amuru circular-dependency suppression in the csproj and suppression baseline stay. Those are not Source Generators.
 - Nuru, Amuru, and Terminal pins in `Directory.Packages.props` are for `tools/dev-cli` and are also out of scope.
 
+## Results
+
+- Removed the `TimeWarp.SourceGenerators` `PackageReference` (root `Directory.Build.props`) and `PackageVersion` pin (`Directory.Packages.props`).
+- Removed `.editorconfig` `TW0007.filename` and `TWA002.severity` entries, and `TWA002: 1` from `.timewarp/suppression-baseline.json`. No other TW/TWA entries existed. The `globalusingsanalyzer*` entries were already there and are not from Source Generators, so they stay.
+- The ganda audit check that adds the package is `global-usings-analyzer`; it now fails without the pin/reference/TW0007 entry. Set `global-usings-analyzer.severity = off` under `[ganda.audit]` in `.editorconfig` with the cycle reason (task 009). `ganda repo audit --fix` will no longer restore it.
+- Boy-scout: `vscode-window-icon` (warning) was failing because `.vscode/settings.json` was missing; `ganda repo audit --fix --checks vscode-window-icon` created it (the file is gitignored, so there is no tracked change).
+- Bumped `<Version>` in `source/Directory.Build.props` 1.0.1 -> 1.0.2. The `TimeWarp.Build.Tasks` 1.0.0 consume pin is unchanged.
+- Gates on .NET SDK 11.0.100: `./bin/dev build` (0 warnings, 0 errors, packs `TimeWarp.Build.Tasks.1.0.2.nupkg`, netstandard2.0), `./bin/dev test` passes, `./bin/dev verify-samples` passes, `./bin/dev check-version` reports 1.0.2 new (NuGet latest 1.0.1), `ganda repo audit` reports "Repository passes all audit checks". `project.assets.json` has no SourceGenerators entry.
+- `git grep -i sourcegenerators -- ':!kanban'` finds only the `.editorconfig` comment that explains the exemption.
+
+### How to validate
+
+Smoke:
+
+```bash
+git grep -n -i sourcegenerators -- ':!kanban'
+./bin/dev build && ./bin/dev test && ./bin/dev check-version
+ganda repo audit
+```
+
+Expect:
+
+- The grep finds only the `.editorconfig` `[ganda.audit]` comment line. No `PackageReference` or `PackageVersion` is found.
+- Build succeeds with 0 warnings and produces `artifacts/packages/TimeWarp.Build.Tasks.1.0.2.nupkg`. Tests pass.
+- check-version prints `Version in source is new — safe to release.` for 1.0.2.
+- The audit prints `Repository passes all audit checks.` and does not run `global-usings-analyzer`.
+
 ## Session
 
 - Created: 3235355 (2026-11-11)
 - Scope added: version bump to 1.0.2 in this task, merge automatically, release when green (Steven, 2026-11-11, session ccd4893c)
+- Implemented 2026-11-11 (implement oracle): removed package, editorconfig/baseline cleanup, audit exemption, version 1.0.2

@@ -417,15 +417,12 @@ dotnet_diagnostic.globalusingsanalyzer0001.filename = global-usings.cs
 dotnet_diagnostic.globalusingsanalyzer0002.enabled = true
 dotnet_diagnostic.globalusingsanalyzer0003.severity = warning
 
-# TW0007 file-level usings (TimeWarp.SourceGenerators)
-dotnet_diagnostic.TW0007.filename = global-usings.cs
-
-# TWA002: Move XML documentation to markdown file
-dotnet_diagnostic.TWA002.severity = silent
-
 # IDE0290: Use primary constructor - disabled per project preference
 dotnet_diagnostic.IDE0290.severity = none
 
 [ganda.audit]
 # Tiny MSBuild task package with no test project, so there is nothing to collect coverage from (task 006).
 ci-code-coverage.severity = off
+# TimeWarp.SourceGenerators consumes TimeWarp.Build.Tasks, so taking it here makes a core-repo cycle.
+# Build Tasks sits at the top of the core build order with no core-repo dependencies (task 009).
+global-usings-analyzer.severity = off
