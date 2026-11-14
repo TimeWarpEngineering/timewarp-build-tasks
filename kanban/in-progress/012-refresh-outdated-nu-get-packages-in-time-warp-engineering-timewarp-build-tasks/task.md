@@ -31,6 +31,8 @@ Acceptance criteria:
   refreshed the version mention in the tools/dev-cli/Directory.Build.props comment, and
   re-ran `dev self-install` so ./bin/dev is built against the new Nuru/DevCli.
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 6f91d32d-d37d-409b-a339-098c88a95d9c, max-turns 500, Done — 2026-11-14T05:49:49Z
+- Reviewer: grok session 01a1d89a-f1fe-7430-a5c0-934bc0180797 (2026-11-14), effort 1, roster general, max-turns 80
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1d89a-f1fe-7430-a5c0-934bc0180797, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-14T05:54:29Z
 
 ## Results
 
@@ -60,3 +62,18 @@ dotnet run --file tools/dev-cli/dev.cs -- self-install && ./bin/dev build && ./b
 
 Expect: both Nuru packages show `4.0.0-beta.13`; `<Version>2.0.1-beta.1</Version>`; self-install,
 build, and test succeed and the build emits `TimeWarp.Build.Tasks.2.0.1-beta.1.nupkg`.
+
+### Review
+
+- Round 1. Roster: general. Effort: 1.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0; nit 0.
+- Disposition: clean. No wontfix items and no escalation.
+- Paths: `review/review-framework.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
+## Learnings
+
+- No misread. The implementer restatement matches the original task: bump `TimeWarp.Nuru` and `TimeWarp.Nuru.DevCli` from `4.0.0-beta.12` to `4.0.0-beta.13` in this repo's `Directory.Packages.props` only, and set `<Version>` in `source/Directory.Build.props` from `2.0.0` to `2.0.1-beta.1` with a hyphen prerelease suffix.
+
+## Review
+
+- Round 1: Done
