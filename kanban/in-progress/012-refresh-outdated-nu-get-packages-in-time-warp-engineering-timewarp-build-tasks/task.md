@@ -30,6 +30,7 @@ Acceptance criteria:
   Directory.Packages.props, set `<Version>2.0.1-beta.1</Version>` in source/Directory.Build.props,
   refreshed the version mention in the tools/dev-cli/Directory.Build.props comment, and
   re-ran `dev self-install` so ./bin/dev is built against the new Nuru/DevCli.
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 6f91d32d-d37d-409b-a339-098c88a95d9c, max-turns 500, Done — 2026-11-14T05:49:49Z
 
 ## Results
 
