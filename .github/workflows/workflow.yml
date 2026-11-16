@@ -1,5 +1,13 @@
 name: CI/CD
 
+# One-workflow CI standard (ganda 655): no paths / paths-ignore filter on
+# pull_request, so every pull request reports a CI check. A filtered workflow
+# never reports a status and a required check would stay pending. On a pull
+# request, dev workflow runs the shared PullRequestBuildClassifier
+# (TimeWarp.Nuru.DevCli) and skips build and test when the diff touches only
+# non-build paths (kanban, documentation, ...). Push and release keep the
+# dotnet build path below.
+
 on:
   pull_request:
     branches: [ master, 'feature/**']
@@ -64,8 +72,15 @@ jobs:
       if: github.event_name == 'workflow_dispatch' && inputs.mode == 'probe'
       run: echo "Trusted publishing OK — OIDC exchange succeeded for this repo + workflow.yml. (A failure of the NuGet login step above means the policy is missing or misconfigured on NuGet.org.)"
 
+    - name: Run CI pipeline (pull request)
+      # dev workflow decides in C# whether this pull request needs build and test.
+      if: github.event_name == 'pull_request'
+      run: dotnet run --file tools/dev-cli/dev.cs -- workflow
+
     - name: Build
-      if: github.event_name != 'workflow_dispatch' || inputs.mode != 'probe'
+      if: >-
+        github.event_name != 'pull_request' &&
+        (github.event_name != 'workflow_dispatch' || inputs.mode != 'probe')
       run: dotnet build --configuration Release
 
     - name: Upload artifacts
@@ -78,6 +93,8 @@ jobs:
       with:
         name: nuget-packages
         path: ./artifacts/packages/*.nupkg
+        # A pull request the classifier skips builds no packages.
+        if-no-files-found: warn
 
     - name: Publish to NuGet
       if: >-
