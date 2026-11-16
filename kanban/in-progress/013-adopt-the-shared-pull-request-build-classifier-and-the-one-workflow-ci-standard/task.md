@@ -112,6 +112,22 @@ Expect:
 - One grep hit in `tools/dev-cli/endpoints/workflow-command.cs`; no `paths:` / `paths-ignore:` key in
   `workflow.yml`.
 
+### Review
+
+- Round 1, effort 2, roster: general (grok session `01a1e4c6-597f-7cf3-b8e3-ade6a2f19753`, 2026-11-16).
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0; nit 0. Final open count: 0.
+- Disposition: `clean`. No wontfix and no escalation.
+- Paths: `review/review-framework.md`, `review/round-1/general.md`, `review/round-1/merged.md`, `review/disposition.md`.
+- The review read the diff and the recorded gates. It did not re-run `./bin/dev build`, `./bin/dev test`, or `ganda repo audit`.
+
+## Learnings
+
+- Goal restatement checked against the original task (2026-11-16 review). It matches. The pull-request job calls `dev workflow` so requirement 3 runs on GitHub. This repo had no push `paths` filter to keep.
+
+## Review
+
+- Round 1: Done
+
 ## Notes
 
 
@@ -123,3 +139,5 @@ plain `ganda pr merge` (no `--allow-no-ci`).
 - Created: 64677b22-d705-4b25-b537-4b53732bcb92 (2026-11-16)
 - Implement oracle 2026-11-16: classifier adopted, gates green (see Results).
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5), session not reported, max-turns 500, Done — 2026-11-16T14:32:38Z
+- Review oracle: general (grok), session `01a1e4c6-597f-7cf3-b8e3-ade6a2f19753`, effort 2, turn cap 120, round 1 disposition clean — 2026-11-16
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1e4c6-597f-7cf3-b8e3-ade6a2f19753, max-turns 120, artifacts general.md, merged.md, disposition.md — 2026-11-16T14:43:20Z
