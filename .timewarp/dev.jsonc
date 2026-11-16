@@ -1,0 +1,13 @@
+// Per-repo dev CLI configuration (TimeWarp.Nuru.DevCli RepoConfig).
+{
+  // Additions to the shared pull request build rule (PullRequestBuildClassifier).
+  // source/Directory.Build.props packs readme.md and assets/logo.png into the
+  // TimeWarp.Build.Tasks package, so a pull request that changes them must
+  // build and pack. The default rule treats both as non-build. Task 013.
+  "pullRequestBuild": {
+    "buildPaths": [
+      "readme.md",
+      "assets/**"
+    ]
+  }
+}
