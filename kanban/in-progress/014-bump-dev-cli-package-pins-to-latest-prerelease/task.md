@@ -78,6 +78,8 @@ Done means:
 - Boy-scout: `ganda repo audit` raised advisory `vscode-window-icon` (missing
   `.vscode/settings.json`, gitignored); `ganda repo audit --fix` created it locally. Nothing tracked changed.
 - Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 98596f1c-2bc0-4f51-bec0-6037b352e213, max-turns 500, Done — 2026-11-18T15:53:50Z
+- Reviewer: grok session 01a1ef5d-67be-78a1-b082-4c373fa8e11f (2026-11-18), effort 1, roster general
+- Review oracle: review by reviewer-grok (grok, vendor xai, model grok-4.7, response model grok-4.7-build), session 01a1ef5d-67be-78a1-b082-4c373fa8e11f, max-turns 80, artifacts general.md, merged.md, disposition.md — 2026-11-18T16:00:56Z
 
 ## Results
 
@@ -117,3 +119,18 @@ Expect: self-install succeeds with no AMURU0001 error; build reports 0 warnings 
 `TimeWarp.Build.Tasks.2.0.1-beta.2.nupkg`; check-version says the version is new; nuget outdated
 reports all packages up to date. `unzip -Z1 artifacts/packages/TimeWarp.Build.Tasks.2.0.1-beta.2.nupkg`
 lists the same 9 entries as master and the nuspec has no `<dependencies>`.
+
+### Review
+
+- Round 1. Roster: general. Effort: 1.
+- Counts: bug 0 open / 0 fixed / 0 wontfix; suggestion 0; nit 0.
+- Disposition: clean. No wontfix items and no escalation.
+- Paths: `review/review-framework.md`, `review/round-1/merged.md`, `review/disposition.md`.
+
+## Learnings
+
+- No misread. The implementer restatement matches the original task: bump the four dev-only pins to `4.0.0-beta.16` and `3.0.0-beta.10`, leave every other pin, fix call sites instead of pinning back, rebuild the dev CLI, keep the hook runfiles and the packed file list and nuspec dependencies, and bump `<Version>` only if `dev check-version` refuses.
+
+## Review
+
+- Round 1: Done
