@@ -77,6 +77,7 @@ Done means:
   `<Version>` went to `2.0.1-beta.2`. No release.
 - Boy-scout: `ganda repo audit` raised advisory `vscode-window-icon` (missing
   `.vscode/settings.json`, gitignored); `ganda repo audit --fix` created it locally. Nothing tracked changed.
+- Implement oracle: implemented by implementer-claude (claude, vendor anthropic, model claude-opus-5-5, response model claude-opus-5-5), session 98596f1c-2bc0-4f51-bec0-6037b352e213, max-turns 500, Done — 2026-11-18T15:53:50Z
 
 ## Results
 
