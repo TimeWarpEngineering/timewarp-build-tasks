@@ -28,6 +28,6 @@ Only the artifact name changes here.
 
 ## Parked
 
-2026-11-28 at merge: Repo audit has blocking failures at /home/steve/worktrees/github.com/TimeWarpEngineering/timewarp-build-tasks/task-015-name-the-ci-package-artifact-packages-n-so-dev; refusing merge. - dev-cli-telemetry: tools/dev-cli/dev.cs: dev CLI does not turn telemetry on; add .UseTelemetry(options => options.ServiceName = "timewarp-build-tasks-dev") to the NuruApp.CreateBuilder() chain Pass --skip-audit to override (emergency only).
+2026-11-28 at merge: Repo audit has blocking failures at /home/steve/worktrees/github.com/TimeWarpEngineering/timewarp-build-tasks/task-015-name-the-ci-package-artifact-packages-n-so-dev; refusing merge. - kanban-landed: 1 live claim kitchen(s) differ from origin-home - KitchenNotLanded: 015: kanban/in-progress/015-name-the-ci-package-artifact-packages-n-so-dev-release-can-find-it.md Pass --skip-audit to override (emergency only).
 
 No failing command output.
