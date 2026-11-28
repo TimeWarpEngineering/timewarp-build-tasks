@@ -25,3 +25,9 @@ Only the artifact name changes here.
 ## Session
 
 - Created: ccd4893c-4c6d-47fb-9913-a5368de1e1b4 (2026-11-18), blocker found while releasing 2.0.1-beta.2 for Steven
+
+## Parked
+
+2026-11-28 at merge: Repo audit has blocking failures at /home/steve/worktrees/github.com/TimeWarpEngineering/timewarp-build-tasks/task-015-name-the-ci-package-artifact-packages-n-so-dev; refusing merge. - kanban-landed: 1 live claim kitchen(s) differ from origin-home - KitchenNotLanded: 015: kanban/in-progress/015-name-the-ci-package-artifact-packages-n-so-dev-release-can-find-it.md Pass --skip-audit to override (emergency only).
+
+No failing command output.
